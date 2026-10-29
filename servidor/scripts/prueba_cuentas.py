@@ -4,7 +4,7 @@ import json, secrets, sys, urllib.request
 sys.path.insert(0, __import__("os").path.dirname(__file__))
 from oauth_cartera import codigo_de, token_para
 
-URL = sys.argv[1] if len(sys.argv) > 1 else "https://cartera-mcp-b.embed.build/mcp"
+URL = sys.argv[1] if len(sys.argv) > 1 else "https://cartera-mcp.embed.build/mcp"
 correo = f"prueba+{secrets.token_hex(3)}@ejemplo.com"
 clave = "huerto-" + secrets.token_hex(4)
 
@@ -26,9 +26,8 @@ def intento(titulo, **campos):
 
 t = intento("crear cuenta", correo=correo, contrasena=clave, nombre="Ana de prueba", decision="crear")
 if t:
-    yo = herramienta(t, "quien_soy") if "cartera-mcp." in URL else None
     hoy = herramienta(t, "a_quien_llamo_hoy")
-    print(f"   cartera sembrada: {hoy['total']} entradas en «a quién llamo hoy»", f"· {yo}" if yo else "")
+    print(f"   cartera sembrada: {hoy['total']} entradas en «a quién llamo hoy»")
 intento("volver a entrar", correo=correo.upper(), contrasena=clave, decision="entrar")
 intento("contraseña mala (debe fallar)", correo=correo, contrasena="otra-cosa-123", decision="entrar")
 intento("correo repetido (debe fallar)", correo=correo, contrasena=clave, nombre="Otra", decision="crear")

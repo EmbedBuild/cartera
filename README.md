@@ -18,7 +18,7 @@ Le preguntas «¿a quién llamo hoy?», «redacta el presupuesto para este clien
 ## Úsala desde Claude (vale la cuenta gratuita)
 
 1. En Claude, ve a **Configuración → Conectores → Añadir conector personalizado**.
-2. Ponle de nombre `Cartera` y pega esta dirección: `https://cartera-mcp-b.embed.build/mcp`.
+2. Ponle de nombre `Cartera` y pega esta dirección: `https://cartera-mcp.embed.build/mcp`.
 3. Pulsa **Conectar**. Se abre la página de Cartera: crea tu cuenta (correo, una contraseña de al menos 8 caracteres y tu nombre) o entra si ya la tienes, y pulsa el botón.
 4. En una conversación nueva, activa Cartera en el menú de herramientas y pregunta: **«¿A quién llamo hoy?»**
 

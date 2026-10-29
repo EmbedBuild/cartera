@@ -1,15 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "cartera-mcp-b",
+  "name": "cartera-mcp",
   "main": "src/index.js",
   "compatibility_date": "2026-10-20",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": false,
-  "routes": [{ "pattern": "cartera-mcp-b.embed.build", "custom_domain": true }],
+  "routes": [{ "pattern": "cartera-mcp.embed.build", "custom_domain": true }],
   // La conexión interna con Cartera: comprueba los tokens y llama a su API en nombre del alumno.
   "services": [{ "binding": "CARTERA", "service": "cartera", "entrypoint": "ApiInterna" }],
   "vars": {
-    "URL_MCP": "https://cartera-mcp-b.embed.build/mcp",
+    "URL_MCP": "https://cartera-mcp.embed.build/mcp",
     "URL_CARTERA": "https://cartera.embed.build"
   },
   "observability": { "enabled": true }
