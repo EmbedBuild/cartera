@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.dev.vars
+.secreto-*
+codigos-*.txt
+datos/
+datos-demo/
+__pycache__/
+.DS_Store

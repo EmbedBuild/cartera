@@ -1,0 +1,17 @@
+{
+  "name": "cartera-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cartera: el embudo de propuestas de quien vende IA a pymes (API de la sesión 6 de PotenzIA)",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/node/servidor.js",
+    "demo": "node scripts/alta.js --datos datos-demo --nombre Demo --id demo && node src/node/servidor.js --datos datos-demo --puerto 3361",
+    "test": "node --test test/*.test.js",
+    "trazabilidad": "node scripts/trazabilidad.js",
+    "reiniciar-clase": "node scripts/reiniciar-clase.js"
+  }
+}

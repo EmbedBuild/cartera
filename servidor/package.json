@@ -1,0 +1,17 @@
+{
+  "name": "cartera-worker",
+  "private": true,
+  "type": "module",
+  "description": "Cartera en Cloudflare: API, servidor de autorización OAuth, página pública de propuestas y correo",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@cloudflare/workers-oauth-provider": "^1.2.4"
+  },
+  "devDependencies": {
+    "wrangler": "^4.154.0"
+  }
+}

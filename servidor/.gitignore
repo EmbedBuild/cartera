@@ -1,0 +1,6 @@
+node_modules
+.secreto-codigos
+codigos-alumnos.txt
+.wrangler
+.dev.vars
+.secreto-admin

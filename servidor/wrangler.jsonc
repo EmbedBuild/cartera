@@ -1,0 +1,39 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cartera",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-20",
+  // Los documentos de metadatos de cliente (CIMD) obligan a pedir URL ajenas: así no se alcanzan direcciones privadas.
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  // Solo en su dominio propio, que coincide con el emisor de los tokens.
+  "workers_dev": false,
+  "routes": [{ "pattern": "cartera.embed.build", "custom_domain": true }],
+  "kv_namespaces": [
+    // Concesiones, códigos y tokens de OAuth (los guarda la librería, solo como hashes).
+    { "binding": "OAUTH_KV", "id": "0a5def77c58844bc8043928131fdcbdc" },
+    // Alumnos: código de entrada (HMAC) → usuario.
+    { "binding": "USUARIOS", "id": "76c0cc329ef142a698bdcea7fbc8f7e1" }
+  ],
+  "vars": {
+    "EMISOR": "https://cartera.embed.build",
+    // Los MCP que pueden recibir tokens de esta Cartera: el que se construye en clase y el plan B.
+    "RECURSOS": "https://cartera-mcp.embed.build/mcp https://cartera-mcp-b.embed.build/mcp",
+    "REMITENTE": "cartera@avisos.embed.build",
+    "BUZON_PRUEBAS": "buzon-de-pruebas@ejemplo.com"
+  },
+  // Una cartera por alumno, cada una en su Durable Object (SQLite, también en el plan gratuito).
+  "durable_objects": { "bindings": [{ "name": "CARTERAS", "class_name": "CarteraDeUsuario" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["CarteraDeUsuario"] }],
+  // Los presupuestos «se envían» de verdad, pero el binding solo deja escribir al buzón de pruebas.
+  // Pon aquí (y en BUZON_PRUEBAS) una dirección verificada en tu cuenta de Cloudflare antes de desplegar.
+  "send_email": [
+    {
+      "name": "CORREO",
+      "destination_address": "buzon-de-pruebas@ejemplo.com",
+      "allowed_sender_addresses": ["cartera@avisos.embed.build"]
+    }
+  ],
+  // Freno a quien prueba códigos al azar: 10 intentos por minuto y dirección IP.
+  "ratelimits": [{ "name": "LIMITE_CODIGOS", "namespace_id": "4601", "simple": { "limit": 10, "period": 60 } }],
+  "observability": { "enabled": true }
+}
