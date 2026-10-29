@@ -6,14 +6,14 @@ Le preguntas «¿a quién llamo hoy?», «redacta el presupuesto para este clien
 
 > Los clientes, los importes y los correos de ejemplo son ficticios.
 
-## Cómo funciona, en llano: un restaurante
+## Cómo funciona, en llano
 
-| En el restaurante | En Cartera | Dónde está |
+| Pieza | Qué hace | Dónde está |
 |---|---|---|
-| **La cocina:** donde se prepara todo y se hace la cuenta. Nadie entra; se pide por la ventanilla | Las reglas y los datos: clientes, presupuestos, puntos, importes, seguimientos | `api/` |
-| **La reserva a tu nombre:** dices quién eres y te sientan en tu mesa; nadie ve la mesa de otro | Entrar con tu correo y tu contraseña. Cada persona tiene su propia cartera | `servidor/` |
-| **La carta y el camarero:** la carta dice qué se puede pedir; el camarero entiende lo que dices y lo lleva a la cocina | El MCP: 15 «platos» (herramientas) que Claude sabe pedir. El camarero no cocina ni pone precios | `mcp/` |
-| **Abrir el local:** un local alquilado que abre solo, las 24 horas | Cloudflare: Cartera está publicada en `cartera.embed.build` | `servidor/` y `mcp/` |
+| **La API** | Las reglas y los datos: clientes, presupuestos, puntos, importes y seguimientos. Hace todas las cuentas | `api/` |
+| **La entrada** | Entrar con tu correo y tu contraseña, y el permiso que das a Claude. Cada persona tiene su propia cartera | `servidor/` |
+| **El MCP** | Las 15 herramientas que Claude sabe usar. Claude conversa; la API decide y calcula | `mcp/` |
+| **Publicar** | Cloudflare: Cartera está publicada en `cartera.embed.build` | `servidor/` y `mcp/` |
 
 ## Úsala desde Claude (vale la cuenta gratuita)
 
@@ -28,9 +28,9 @@ Tu cartera empieza con seis clientes de ejemplo para que puedas probarlo todo: r
 
 Cada carpeta es un módulo con su contrato (lo que hace, escrito como escenarios «Dado / Cuando / Entonces») y sus pruebas. Se puede cambiar una pieza sin tocar las otras.
 
-- **`api/` · la cocina.** Las reglas de negocio y la API. JavaScript sin dependencias, 47 pruebas, una por escenario de [`api/SPEC.md`](api/SPEC.md). Funciona igual en tu ordenador (Node 22 o superior) que en Cloudflare.
-- **`servidor/` · la reserva y el local.** El programa que publica Cartera en Cloudflare: la entrada con correo y contraseña (y el permiso que das a Claude), la cartera de cada persona guardada aparte, el envío de correos y la página donde el cliente acepta o rechaza la propuesta.
-- **`mcp/` · la carta y el camarero.** Las 15 herramientas que usa Claude, en [`mcp/src/herramientas.js`](mcp/src/herramientas.js). Cada una lleva un nombre, una descripción (es lo que lee la IA para decidir cuándo usarla) y lo que pide a la cocina.
+- **`api/` · la API.** Las reglas de negocio y la API. JavaScript sin dependencias, 47 pruebas, una por escenario de [`api/SPEC.md`](api/SPEC.md). Funciona igual en tu ordenador (Node 22 o superior) que en Cloudflare.
+- **`servidor/` · la entrada y la publicación.** El programa que publica Cartera en Cloudflare: la entrada con correo y contraseña (y el permiso que das a Claude), la cartera de cada persona guardada aparte, el envío de correos y la página donde el cliente acepta o rechaza la propuesta.
+- **`mcp/` · el MCP.** Las 15 herramientas que usa Claude, en [`mcp/src/herramientas.js`](mcp/src/herramientas.js). Cada una lleva un nombre, una descripción (es lo que lee la IA para decidir cuándo usarla) y lo que pide a la API.
 
 ### El contrato entre módulos
 
@@ -41,19 +41,19 @@ Cada carpeta es un módulo con su contrato (lo que hace, escrito como escenarios
 | `validateToken(recurso, token)` | La dirección del MCP que pregunta (`https://…/mcp`) y el token que Claude le ha enviado | Si el token es válido, lo ha emitido Cartera y es **para ese MCP**: `{ props: { usuarioId, nombre }, scope, audience, expiresAt, userId, clientId }`. Si no, `null` |
 | `pedir(usuarioId, metodo, ruta, cuerpo)` | Quién pide (el `usuarioId` del token), `'GET'` o `'POST'`, una ruta de la API que empieza por `/api/` (todas en [`api/README.md`](api/README.md)) y, si es POST, el cuerpo como objeto | `{ ok, estado, datos }`: si fue bien, el código HTTP y el JSON de la API. Si no, `datos` trae `{ mensaje, errores? }` en español, para devolvérselo tal cual a la IA |
 
-La consecuencia: hoy el MCP solo puede desplegarse en la misma cuenta de Cloudflare que el servidor. Abrir la cocina al mundo es el [reto 4](retos/04-abre-la-cocina.md).
+La consecuencia: hoy el MCP solo puede desplegarse en la misma cuenta de Cloudflare que el servidor. Abrir la API al mundo es el [reto 4](retos/04-abre-la-api.md).
 
 ## Pruébala en tu ordenador
 
 Necesitas Node 22 o superior.
 
 ```bash
-cd api && npm test          # 47 pruebas de la cocina (sin instalar nada)
+cd api && npm test          # 47 pruebas de la API (sin instalar nada)
 cd servidor && npm test     # pruebas de las cuentas
 cd mcp && npm install && npm test   # pruebas de las herramientas
 ```
 
-Para arrancar la cocina sola, con datos de ejemplo: `cd api && node scripts/alta.js --datos datos --nombre "Tu nombre" --id yo` y luego `npm start`. Para el servidor completo en local: `cd servidor && npm install && npx wrangler dev`, que simula Cloudflare (y también el envío de correos).
+Para arrancar la API sola, con datos de ejemplo: `cd api && node scripts/alta.js --datos datos --nombre "Tu nombre" --id yo` y luego `npm start`. Para el servidor completo en local: `cd servidor && npm install && npx wrangler dev`, que simula Cloudflare (y también el envío de correos).
 
 `servidor/wrangler.jsonc` y `mcp/wrangler.jsonc` apuntan a la Cartera de la comunidad: para desplegar la tuya necesitas tu cuenta de Cloudflare, tus propios espacios de datos y un buzón verificado.
 
@@ -64,8 +64,8 @@ Para arrancar la cocina sola, con datos de ejemplo: `cd api && node scripts/alta
 | [1 · Comprueba que el correo es tuyo](retos/01-verificar-correo.md) | Medio | Hoy cualquiera puede crear una cuenta con un correo ajeno |
 | [2 · He olvidado mi contraseña](retos/02-olvide-mi-contrasena.md) | Medio | Hoy quien la olvida tiene que crear otra cuenta |
 | [3 · Entrar sin contraseña](retos/03-entrar-sin-contrasena.md) | Medio | Que Cartera no tenga que guardar contraseñas |
-| [4 · Abre la cocina](retos/04-abre-la-cocina.md) | Avanzado | Que cualquiera pueda conectar su propio MCP o app a la API |
-| [5 · Añade un plato a la carta](retos/05-anade-un-plato.md) | Fácil | Una herramienta nueva para algo que la cocina ya sabe hacer |
+| [4 · Abre la API](retos/04-abre-la-api.md) | Avanzado | Que cualquiera pueda conectar su propio MCP o app a la API |
+| [5 · Añade una herramienta al MCP](retos/05-anade-una-herramienta.md) | Fácil | Una herramienta nueva para algo que la API ya sabe hacer |
 
 Cómo aportar, programes o no: [CONTRIBUTING.md](CONTRIBUTING.md).
 

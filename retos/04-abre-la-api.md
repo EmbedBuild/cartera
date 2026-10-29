@@ -1,12 +1,12 @@
-# Reto 4 · Abre la cocina
+# Reto 4 · Abre la API
 
 **Nivel:** avanzado · **Módulo:** `servidor/`
 
 ## Por qué importa
 
-Hoy la cocina de Cartera (la API) solo atiende a **su propio camarero**: el MCP de `mcp/` le habla por una conexión interna de Cloudflare (las funciones `pedir` y `validateToken` de `ApiInterna`; ver «El contrato entre módulos» en el README). Por eso el MCP solo se puede publicar en la misma cuenta de Cloudflare que la cocina.
+Hoy la API de Cartera solo atiende a **su propio MCP**: el MCP de `mcp/` le habla por una conexión interna de Cloudflare (las funciones `pedir` y `validateToken` de `ApiInterna`; ver «El contrato entre módulos» en el README). Por eso el MCP solo se puede publicar en la misma cuenta de Cloudflare que la API.
 
-El reto es **abrir la ventanilla al mundo, con sus propios permisos**: que cualquiera pueda construir su propio MCP o su propia app (desde su cuenta de Cloudflare, o desde donde quiera) y pedir a la cocina de Cartera en nombre de una persona, solo si esa persona le ha dado permiso.
+El reto es **abrir la API al mundo, con sus propios permisos**: que cualquiera pueda construir su propio MCP o su propia app (desde su cuenta de Cloudflare, o desde donde quiera) y pedir a la API de Cartera en nombre de una persona, solo si esa persona le ha dado permiso.
 
 ## Escenarios
 
@@ -16,7 +16,7 @@ Escenario: una app de fuera pide con permiso
   Cuando pide «a quién llamo hoy» a la API con su token
   Entonces la API responde con la cartera de esa persona y de nadie más
 
-Escenario: el token del camarero no abre la cocina
+Escenario: el token del MCP no abre la API
   Dado un token emitido para el MCP de Cartera
   Cuando alguien lo usa para llamar directamente a la API
   Entonces la API lo rechaza: cada token vale solo para aquello para lo que se emitió

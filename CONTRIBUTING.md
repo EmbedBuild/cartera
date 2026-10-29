@@ -1,6 +1,6 @@
 # Cómo aportar a Cartera
 
-Cartera es de la comunidad: cualquier mejora es bienvenida, programes o no. La regla de la casa es la misma que en clase: **primero se cambia el contrato y después el código.** El contrato son los escenarios «Dado / Cuando / Entonces» de cada módulo (en la cocina, [`api/SPEC.md`](api/SPEC.md)).
+Cartera es de la comunidad: cualquier mejora es bienvenida, programes o no. La regla de la casa es la misma que en clase: **primero se cambia el contrato y después el código.** El contrato son los escenarios «Dado / Cuando / Entonces» de cada módulo (en la API, [`api/SPEC.md`](api/SPEC.md)).
 
 ## Forma 1 · Sin programar: escribe los escenarios
 
@@ -28,7 +28,7 @@ Reglas:
 - **Sin secretos:** ni claves, ni contraseñas, ni direcciones personales. Los secretos van con `npx wrangler secret put`, nunca en un archivo.
 - **Datos ficticios** siempre, también en las pruebas.
 - Nombres, mensajes y comentarios en español, como el resto del código. Los mensajes de error los lee la IA y una persona: que se entiendan.
-- En la cocina (`api/`) solo se usan APIs Web (nada de `node:`, `Buffer` ni `process.` fuera de `api/src/node/`): una prueba lo vigila.
+- En la API (`api/`) solo se usan APIs Web (nada de `node:`, `Buffer` ni `process.` fuera de `api/src/node/`): una prueba lo vigila.
 
 ## Revisión y despliegue
 

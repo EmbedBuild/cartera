@@ -4,7 +4,7 @@
 
 ## Por qué importa
 
-Hoy, para crear una cuenta en Cartera basta con escribir un correo, sin demostrar que es tuyo. Cualquiera podría registrarse con el correo de otra persona, y nunca podríamos escribirle para nada importante (por ejemplo, para el reto 2). Es como reservar mesa con el teléfono de otro: el restaurante no puede avisarte si hay un problema.
+Hoy, para crear una cuenta en Cartera basta con escribir un correo, sin demostrar que es tuyo. Cualquiera podría registrarse con el correo de otra persona, y nunca podríamos escribirle para nada importante (por ejemplo, para el reto 2). Es como dejar el teléfono de otra persona al pedir algo: nunca podrán avisarte a ti.
 
 La solución habitual: al crear la cuenta llega un código de 6 cifras al correo, y la cuenta no vale hasta que lo escribes.
 
